@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"os"
-	"strconv"
+	"path/filepath"
 
 	pdf "github.com/adrg/go-wkhtmltopdf"
 )
@@ -18,8 +18,6 @@ func main() {
 		log.Fatal("No path given, Please specify path.")
 		return
 	}
-	argsGen_chunksize := os.Args[2]
-	argsGen_chunksizeInt, err := strconv.Atoi(argsGen_chunksize)
 	pdf.Init()
 	defer pdf.Destroy()
 
@@ -44,8 +42,14 @@ func main() {
 		log.Fatal(err)
 	}
 	converter.Add(objectCoverPage2)
-	for i := 1; i < argsGen_chunksizeInt; i++ {
-		objectContentPage, err := pdf.NewObject(argsGen_pathFile + "/middle/" + strconv.Itoa(i) + " - 0.html")
+
+	// Content Generation
+	middlefiles, err := FilePathWalkDir(argsGen_pathFile + "/middle/")
+	if err != nil {
+		panic(err)
+	}
+	for _, midfile := range middlefiles {
+		objectContentPage, err := pdf.NewObject(midfile)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -78,6 +82,17 @@ func main() {
 	if err := converter.Run(outFile); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func FilePathWalkDir(root string) ([]string, error) {
+	var files []string
+	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+		if !info.IsDir() {
+			files = append(files, path)
+		}
+		return nil
+	})
+	return files, err
 }
 
 // // Create object from URL.
