@@ -44,37 +44,53 @@ package main
 import (
 	"log"
 	"os"
+	"strconv"
 
 	pdf "github.com/adrg/go-wkhtmltopdf"
 )
 
 func main() {
+	argsGen_pathFile := os.Args[1]
+	argsGen_chunksize := os.Args[2]
+	argsGen_chunksizeInt, err := strconv.Atoi(argsGen_chunksize)
 	pdf.Init()
 	defer pdf.Destroy()
 
+	// Create converter.
+	converter, err := pdf.NewConverter()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer converter.Destroy()
+
 	// Create object from file.
-	objectCoverPage, err := pdf.NewObject("templates/cover.html")
+	objectCoverPage, err := pdf.NewObject(argsGen_pathFile + "/front/0.html")
 	if err != nil {
 		log.Fatal(err)
 	}
 	objectCoverPage.LoadImages = true
+	// Add created objects to the converter.
+	converter.Add(objectCoverPage)
 
-	objectCoverPage2, err := pdf.NewObject("templates/page2.html")
+	objectCoverPage2, err := pdf.NewObject(argsGen_pathFile + "/front/1.html")
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	objectContentPage, err := pdf.NewObject("templates/middle/1.html")
-	if err != nil {
-		log.Fatal(err)
+	converter.Add(objectCoverPage2)
+	for i := 1; i < argsGen_chunksizeInt; i++ {
+		objectContentPage, err := pdf.NewObject(argsGen_pathFile + "/middle/" + strconv.Itoa(i) + " - 0.html")
+		if err != nil {
+			log.Fatal(err)
+		}
+		converter.Add(objectContentPage)
 	}
 
 	// Create object from file.
-	objectBackPage, err := pdf.NewObject("templates/back.html")
+	objectBackPage, err := pdf.NewObject(argsGen_pathFile + "/back/0.html")
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	converter.Add(objectBackPage)
 	// // Create object from URL.
 	// object2, err := pdf.NewObject("https://google.com")
 	// if err != nil {
@@ -102,22 +118,8 @@ func main() {
 	// object3.Zoom = 1.5
 	// object3.TOC.Title = "Table of Contents"
 
-	// Create converter.
-	converter, err := pdf.NewConverter()
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer converter.Destroy()
-
-	// Add created objects to the converter.
-	converter.Add(objectCoverPage)
-
-	converter.Add(objectCoverPage2)
-
-	converter.Add(objectContentPage)
 	// converter.Add(objectCoverPage2)
 
-	converter.Add(objectBackPage)
 	// Set converter options.
 	converter.Title = "Sample document"
 	converter.PaperSize = pdf.A4
@@ -128,7 +130,7 @@ func main() {
 	converter.MarginRight = "10mm"
 
 	// Convert objects and save the output PDF document.
-	outFile, err := os.Create("out.pdf")
+	outFile, err := os.Create(argsGen_pathFile + "/merged.pdf")
 	if err != nil {
 		log.Fatal(err)
 	}

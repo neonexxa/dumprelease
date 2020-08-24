@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+
+  <style>
+  table{
+    width:100%;
+  }
+  td{
+    text-align: center
+  }
+
+  .first-page {
+    background-image: url("https://d2n7qmsq6qx5o0.cloudfront.net/report_cover.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height:1240px;
+  }
+
+  .last-page {
+    background-image: url("https://d2n7qmsq6qx5o0.cloudfront.net/report_back_cover.jpeg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height:1240px;
+  }
+
+  .page-break {
+    page-break-after: always;
+  }
+
+  .report-title {
+    font-family: "Poppins", sans-serif;
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .summary {
+    display: flex;
+    border: 1px solid #e8ecf1;
+  }
+
+  #detections {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  #detections td, #detections th {
+    border-bottom: 1px solid #707070;
+    text-align: center;
+    padding: 8px;
+  }
+
+  #detections th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #414143;
+    color: white;
+  }
+  #summary-table{
+    border: thin solid #707070;
+    border-radius:10px;
+  }
+
+  .single-detection td {
+    border: thin solid #707070;
+    box-shadow: #596066;
+    border-radius: 8px;
+  }
+
+  .td-div {
+    border: thin solid #707070;
+    box-shadow: #596066;
+    border-radius: 8px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Float four columns side by side */
+  .column {
+    float: left;
+    width: 30%;
+    padding: 0 5px;
+  }
+
+  .row {margin: 0 -5px;}
+
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  /* Responsive columns */
+  @media  screen and (max-width: 80%) {
+    .column {
+      width: 30%;
+      display: block;
+      margin-bottom: 10px;
+    }
+  }
+
+  /* Style the counter cards */
+  .card {
+    border: thin solid #707070;
+    width:100%;
+    border-radius:10px;
+    text-align: center;
+    background-color: white;
+    color: #2e3131;
+    display:block;
+  }
+
+  /* Div Table */
+  .divTable {
+    display: table;
+    width: 100%;
+    height:10px;
+  }
+
+  .divTableRow {
+    display: table-row;
+  }
+
+  .divTableHeading {
+    background-color: #eee;
+    display: table-header-group;
+  }
+
+  .divTableCell,
+  .divTableHead {
+    /* border: 1px solid #999999; */
+    display: table-cell;
+    padding: 3px 10px;
+  }
+
+  .divTableHeading {
+    background-color: #eee;
+    display: table-header-group;
+    font-weight: bold;
+  }
+
+  .divTableFoot {
+    background-color: #eee;
+    display: table-footer-group;
+    font-weight: bold;
+  }
+
+  .divTableBody {
+    display: table-row-group;
+  }
+</style>  
+  <body style="height: 1240px">
+              <h4  style="color:#596066">DETECTION SUMMARY</h4>
+<div class="summary">
+  <table id="summary-table">
+    <tr>
+      <td valign="bottom"><img src="https://d2n7qmsq6qx5o0.cloudfront.net/report_lksa.png" width=100 height=50></td>        
+      <td valign="bottom">
+        <h1 style="color:#596066">6</h1>          
+      </td>
+      <td valign="bottom">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHwAAACVCAYAAACaVZ70AAAABHNCSVQICAgIfAhkiAAABMtJREFUeF7tneFRHDEMRr0VhA6SDqCDQCcpwR0EKkAlpJPkOqAEUgmZ/RUIBKy1bEm+dzP8s6Vv3zvtHAu3uxWjV631tpTy3agcZcYQOG1WdRFuRXJoHYQPxRuvOMLjORmaCOFD8cYrjvB4ToYmQvhQvPGKIzyek6GJED4Ub7ziCI/nZGgihA/FG684wuM5GZrIXfjN0MNbv7iUUi4Vh+krXETMruUrDnqZpbXWX6WUr4oDQrgCVrilCA+nZGwghI/lG646wsMpGRvokPBaq9V/qVyXUvaf5hcf2ppRvbnwqPCnvrbHdyP8OLt9J8L7+KXbjfB0yvoCI7yPX7rdCE+nrC8wwvv4pduN8HTK+gIjvI9fut0IT6esLzDC+/il243wdMr6AiO8j1+63bOE34jI/p8WL15Hvj2qvZZ+4ABnSLwTkf2r0tNfB3ictlqr9o8nCH+pFuGtb3UmvJXU2+uY8D5+R3cz4a3kmPBWUkx4Hynb3Ux4K08mvJUUE95HynY3E97KkwlvJcWE95Gy3c2Et/JkwltJMeF9pGx3M+GtPA9M+FUp5aK1/qR1jyLyOKnXizbLX2nzgBq5J8Ij2xmQDeEDoEYuifDIdgZkQ/gAqJFLLi+81vqtlPI5soSebCJyp9l/DsK1N7HR8HNfe+DXVC0P/sXJ3fKzAAj/x8aBU1gknx9mQTjC332THBgATukfjt3EBUz46wnfbzW5X09f8iUiqpsiLT/hS1ruOCiEd8DLuBXhGa11ZEZ4B7yMWxGe0VpH5uWF11qvtm371MEo9Nb7+/uTJuA5CNdeO9bwc1/L7+FcaeNKm/KRD+5TqwnAhDPhTDgT/vc9wIc2zfkz4FpO6QGlRIq0/IRHgh0hC8IjWJiYAeETYUdohfAIFiZmQPhE2BFaLS+81qp9mm4EL80ZRET1tOVzEM4fT569fRDePEsxF3LhhWvpXEvnWjrX0mOenw+k4pT++pS+f134ywGWKbZob7S//Ie2FNYmhkT4RNgRWiE8goWJGRA+EXaEVgiPYGFihuWFG97U57eI/JjoZkircxBudS39pP0u9hBjnUUR3g4Q4e2sygoPqkM4whUEgizllN4ugglvZ+V6Sre6qc+DiFTFMYdcuvyEh6TuGArhjvA9WiPcg7pjT4Q7wvdojXAP6o49Ee4I36M1wj2oO/ZEuCN8j9YI96Du2BPhjvA9WiPcg7pjT4Q7wvdojXAP6o49Ee4I36M1wj2oO/ZEuCN8j9YI96Du2BPhjvA9WiPcg7pjT4Q7wvdojXAP6o49Ee4I36M1wj2oO/ZEuCN8j9bphJdSbj1ALdRTe5Mj3+eHLwQ+y6EgPIspo5wINwKZpQzCs5gyyolwI5BZyiA8iymjnAg3ApmlDMKzmDLKiXAjkFnKIDyLKaOcCDcCmaWMqfD9uu7+w+t9AhellEslpJNy/f+WP2y11idlsTdvzKescbbLa63XpZSfGgDaR2O8VxvhGvIGaxFuADFTCYRnsmWQFeEGEDOVQHgmWwZZMwo3OGxKaAh4f0rXZGWtAQGEG0DMVALhmWwZZEW4AcRMJRCeyZZBVoQbQMxUAuGZbBlkRbgBxEwlEJ7JlkFWhBtAzFQC4ZlsGWS1Fs5Xdg2kjCwhImaO/gAJqULgiy0A1wAAAABJRU5ErkJggg=="
+            width=50
+            height=50>
+      </td>
+      <td valign="bottom"></td>
+    </tr>
+    <tr>
+      <td valign="top"><h5 style="color:#596066">Highway</h5></td>
+      <td valign="top">
+        <h5 style="color:#596066">Total Detection Count</h5>
+      </td>
+      <td valign="top">
+        <h5 style="color:#596066"> <span  style="font-weight: bold" > Report Date</span>  <br> 
+        24/08/2020</h5>
+      </td>
+      <td valign="top">
+        <h5 style="color:#596066">
+                    Report auto generated
+                  </h5>
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="summary-count">
+    <table> 
+                  <tr>
+            <td style="width: 25%">
+      <div class="card">
+        <h3>0</h3>
+        <p>ACCIDENT</p>
+        
+      </div>
+      </td>
+                      <td style="width: 25%">
+      <div class="card">
+        <h3>2</h3>
+        <p>FOREIGN OBJECT</p>
+        
+      </div>
+      </td>
+                      <td style="width: 25%">
+      <div class="card">
+        <h3>2</h3>
+        <p>ASSET DAMAGE</p>
+        
+      </div>
+      </td>
+                      <td style="width: 25%">
+      <div class="card">
+        <h3>2</h3>
+        <p>POTHOLE</p>
+        
+      </div>
+      </td>
+              </tr>
+                        <tr>
+            <td style="width: 25%">
+      <div class="card">
+        <h3>0</h3>
+        <p>SURFACE CRACK</p>
+        
+      </div>
+      </td>
+                      <td style="width: 25%">
+      <div class="card">
+        <h3>0</h3>
+        <p>WATER PONDING</p>
+        
+      </div>
+      </td>
+                      <td style="width: 25%">
+      <div class="card">
+        <h3>0</h3>
+        <p>LIQUID SPILLAGE</p>
+        
+      </div>
+      </td>
+                      <td style="width: 25%">
+      <div class="card">
+        <h3>0</h3>
+        <p>ANIMAL</p>
+        
+      </div>
+      </td>
+              </tr>
+                        <tr>
+            <td style="width: 25%">
+      <div class="card">
+        <h3>0</h3>
+        <p>SLOPE FAILURE</p>
+        
+      </div>
+      </td>
+              </tr>
+            </table>
+</div>
+<div>
+  <h4 style="color:#596066;">DETECTION OVERVIEW</h4>
+  <table id="detections" >
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>ID</th>
+        <th>Detection Type</th>
+        <th>Description</th>
+        <th>Location</th>
+        <th>Vehicle</th>
+      </tr>
+    </thead>
+    <tbody>
+              <tr>
+          <td valign="middle">1</td>
+          <td valign="middle">49</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle"></td>
+          <td valign="middle">KM 3</td>
+          <td valign="middle"></td>
+        </tr>
+              <tr>
+          <td valign="middle">2</td>
+          <td valign="middle">50</td>
+          <td valign="middle">Asset Damage</td>
+          <td valign="middle"></td>
+          <td valign="middle">KM 3</td>
+          <td valign="middle"></td>
+        </tr>
+              <tr>
+          <td valign="middle">3</td>
+          <td valign="middle">51</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle"></td>
+          <td valign="middle">KM 3</td>
+          <td valign="middle"></td>
+        </tr>
+              <tr>
+          <td valign="middle">4</td>
+          <td valign="middle">52</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle"></td>
+          <td valign="middle">KM 3</td>
+          <td valign="middle"></td>
+        </tr>
+              <tr>
+          <td valign="middle">5</td>
+          <td valign="middle">53</td>
+          <td valign="middle">Asset Damage</td>
+          <td valign="middle"></td>
+          <td valign="middle">KM 3</td>
+          <td valign="middle"></td>
+        </tr>
+              <tr>
+          <td valign="middle">6</td>
+          <td valign="middle">54</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle"></td>
+          <td valign="middle">KM 3</td>
+          <td valign="middle"></td>
+        </tr>
+          </tbody>
+  </table>
+</div>
+<div class="page-break"></div>      
+    
+        
+    
+    
+      </body>
+</html>
