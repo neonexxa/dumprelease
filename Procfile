@@ -1,1 +1,1 @@
-web: ./GoPdfGen
+web: program $PORT
