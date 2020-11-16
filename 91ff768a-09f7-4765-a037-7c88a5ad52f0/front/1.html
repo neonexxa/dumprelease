@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+
+  <style>
+  table{
+    width:100%;
+  }
+  td{
+    text-align: center
+  }
+
+  .first-page {
+    background-image: url("https://d2n7qmsq6qx5o0.cloudfront.net/report_cover.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height:1240px;
+  }
+
+  .last-page {
+    background-image: url("https://d2n7qmsq6qx5o0.cloudfront.net/report_back_cover.jpeg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height:1240px;
+  }
+
+  .page-break {
+    page-break-after: always;
+  }
+
+  .report-title {
+    font-family: "Poppins", sans-serif;
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .summary {
+    display: flex;
+    border: 1px solid #e8ecf1;
+  }
+
+  #detections {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  #detections td, #detections th {
+    border-bottom: 1px solid #707070;
+    text-align: center;
+    padding: 8px;
+  }
+
+  #detections th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #414143;
+    color: white;
+  }
+  #summary-table{
+    border: thin solid #707070;
+    border-radius:10px;
+  }
+
+  .single-detection td {
+    border: thin solid #707070;
+    box-shadow: #596066;
+    border-radius: 8px;
+  }
+
+  .td-div {
+    border: thin solid #707070;
+    box-shadow: #596066;
+    border-radius: 8px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Float four columns side by side */
+  .column {
+    float: left;
+    width: 30%;
+    padding: 0 5px;
+  }
+
+  .row {margin: 0 -5px;}
+
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  /* Responsive columns */
+  @media  screen and (max-width: 80%) {
+    .column {
+      width: 30%;
+      display: block;
+      margin-bottom: 10px;
+    }
+  }
+
+  /* Style the counter cards */
+  .card {
+    border: thin solid #707070;
+    width:100%;
+    border-radius:10px;
+    text-align: center;
+    background-color: white;
+    color: #2e3131;
+    display:block;
+  }
+
+  /* Div Table */
+  .divTable {
+    display: table;
+    width: 100%;
+    height:10px;
+  }
+
+  .divTableRow {
+    display: table-row;
+  }
+
+  .divTableHeading {
+    background-color: #eee;
+    display: table-header-group;
+  }
+
+  .divTableCell,
+  .divTableHead {
+    /* border: 1px solid #999999; */
+    display: table-cell;
+    padding: 3px 10px;
+  }
+
+  .divTableHeading {
+    background-color: #eee;
+    display: table-header-group;
+    font-weight: bold;
+  }
+
+  .divTableFoot {
+    background-color: #eee;
+    display: table-footer-group;
+    font-weight: bold;
+  }
+
+  .divTableBody {
+    display: table-row-group;
+  }
+</style>  
+  <body style="height: 1240px">
+              <h4  style="color:#596066">DETECTION SUMMARY</h4>
+<div class="summary">
+  <table id="summary-table">
+    <tr>
+      <td valign="bottom"><img src="https://d2n7qmsq6qx5o0.cloudfront.net/report_lksa.png" width=100 height=50></td>        
+      <td valign="bottom">
+        <h1 style="color:#596066">160</h1>          
+      </td>
+      <td valign="bottom">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHwAAACVCAYAAACaVZ70AAAABHNCSVQICAgIfAhkiAAABMtJREFUeF7tneFRHDEMRr0VhA6SDqCDQCcpwR0EKkAlpJPkOqAEUgmZ/RUIBKy1bEm+dzP8s6Vv3zvtHAu3uxWjV631tpTy3agcZcYQOG1WdRFuRXJoHYQPxRuvOMLjORmaCOFD8cYrjvB4ToYmQvhQvPGKIzyek6GJED4Ub7ziCI/nZGgihA/FG684wuM5GZrIXfjN0MNbv7iUUi4Vh+krXETMruUrDnqZpbXWX6WUr4oDQrgCVrilCA+nZGwghI/lG646wsMpGRvokPBaq9V/qVyXUvaf5hcf2ppRvbnwqPCnvrbHdyP8OLt9J8L7+KXbjfB0yvoCI7yPX7rdCE+nrC8wwvv4pduN8HTK+gIjvI9fut0IT6esLzDC+/il243wdMr6AiO8j1+63bOE34jI/p8WL15Hvj2qvZZ+4ABnSLwTkf2r0tNfB3ictlqr9o8nCH+pFuGtb3UmvJXU2+uY8D5+R3cz4a3kmPBWUkx4Hynb3Ux4K08mvJUUE95HynY3E97KkwlvJcWE95Gy3c2Et/JkwltJMeF9pGx3M+GtPA9M+FUp5aK1/qR1jyLyOKnXizbLX2nzgBq5J8Ij2xmQDeEDoEYuifDIdgZkQ/gAqJFLLi+81vqtlPI5soSebCJyp9l/DsK1N7HR8HNfe+DXVC0P/sXJ3fKzAAj/x8aBU1gknx9mQTjC332THBgATukfjt3EBUz46wnfbzW5X09f8iUiqpsiLT/hS1ruOCiEd8DLuBXhGa11ZEZ4B7yMWxGe0VpH5uWF11qvtm371MEo9Nb7+/uTJuA5CNdeO9bwc1/L7+FcaeNKm/KRD+5TqwnAhDPhTDgT/vc9wIc2zfkz4FpO6QGlRIq0/IRHgh0hC8IjWJiYAeETYUdohfAIFiZmQPhE2BFaLS+81qp9mm4EL80ZRET1tOVzEM4fT569fRDePEsxF3LhhWvpXEvnWjrX0mOenw+k4pT++pS+f134ywGWKbZob7S//Ie2FNYmhkT4RNgRWiE8goWJGRA+EXaEVgiPYGFihuWFG97U57eI/JjoZkircxBudS39pP0u9hBjnUUR3g4Q4e2sygoPqkM4whUEgizllN4ugglvZ+V6Sre6qc+DiFTFMYdcuvyEh6TuGArhjvA9WiPcg7pjT4Q7wvdojXAP6o49Ee4I36M1wj2oO/ZEuCN8j9YI96Du2BPhjvA9WiPcg7pjT4Q7wvdojXAP6o49Ee4I36M1wj2oO/ZEuCN8j9YI96Du2BPhjvA9WiPcg7pjT4Q7wvdojXAP6o49Ee4I36M1wj2oO/ZEuCN8j9bphJdSbj1ALdRTe5Mj3+eHLwQ+y6EgPIspo5wINwKZpQzCs5gyyolwI5BZyiA8iymjnAg3ApmlDMKzmDLKiXAjkFnKIDyLKaOcCDcCmaWMqfD9uu7+w+t9AhellEslpJNy/f+WP2y11idlsTdvzKescbbLa63XpZSfGgDaR2O8VxvhGvIGaxFuADFTCYRnsmWQFeEGEDOVQHgmWwZZMwo3OGxKaAh4f0rXZGWtAQGEG0DMVALhmWwZZEW4AcRMJRCeyZZBVoQbQMxUAuGZbBlkRbgBxEwlEJ7JlkFWhBtAzFQC4ZlsGWS1Fs5Xdg2kjCwhImaO/gAJqULgiy0A1wAAAABJRU5ErkJggg=="
+            width=50
+            height=50>
+      </td>
+      <td valign="bottom"></td>
+    </tr>
+    <tr>
+      <td valign="top"><h5 style="color:#596066">Highway</h5></td>
+      <td valign="top">
+        <h5 style="color:#596066">Total Detection Count</h5>
+      </td>
+      <td valign="top">
+        <h5 style="color:#596066"> <span  style="font-weight: bold" > Report Date</span>  <br> 
+        13/11/2020</h5>
+      </td>
+      <td valign="top">
+        <h5 style="color:#596066">
+                    Report auto generated
+                  </h5>
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="summary-count">
+    <table> 
+                  <tr>
+            <td style="width: 25%">
+      <div class="card">
+        <h3>8</h3>
+        <p>INCIDENT / ACCIDENT</p>
+        
+      </div>
+      </td>
+                      <td style="width: 25%">
+      <div class="card">
+        <h3>19</h3>
+        <p>FOREIGN OBJECT</p>
+        
+      </div>
+      </td>
+                      <td style="width: 25%">
+      <div class="card">
+        <h3>11</h3>
+        <p>ASSET DAMAGE</p>
+        
+      </div>
+      </td>
+                      <td style="width: 25%">
+      <div class="card">
+        <h3>10</h3>
+        <p>POTHOLE</p>
+        
+      </div>
+      </td>
+              </tr>
+                        <tr>
+            <td style="width: 25%">
+      <div class="card">
+        <h3>82</h3>
+        <p>SURFACE CRACK</p>
+        
+      </div>
+      </td>
+                      <td style="width: 25%">
+      <div class="card">
+        <h3>13</h3>
+        <p>WATER PONDING</p>
+        
+      </div>
+      </td>
+                      <td style="width: 25%">
+      <div class="card">
+        <h3>15</h3>
+        <p>LAMP MALFUNCTION</p>
+        
+      </div>
+      </td>
+                      <td style="width: 25%">
+      <div class="card">
+        <h3>2</h3>
+        <p>ANIMAL</p>
+        
+      </div>
+      </td>
+              </tr>
+                        <tr>
+            <td style="width: 25%">
+      <div class="card">
+        <h3>0</h3>
+        <p>SLOPE FAILURE</p>
+        
+      </div>
+      </td>
+              </tr>
+            </table>
+</div>
+<div>
+  <h4 style="color:#596066;">DETECTION OVERVIEW</h4>
+  <table id="detections" >
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>ID</th>
+        <th>Detection Type</th>
+        <th>Description</th>
+        <th>Location</th>
+        <th>Vehicle</th>
+      </tr>
+    </thead>
+    <tbody>
+              <tr>
+          <td valign="middle">1</td>
+          <td valign="middle">7079</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">NB/KM5.6</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">2</td>
+          <td valign="middle">7082</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">NB/KM6.3</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">3</td>
+          <td valign="middle">7086</td>
+          <td valign="middle">Asset Damage</td>
+          <td valign="middle">Guardrail</td>
+          <td valign="middle">SB/KM6.9</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">4</td>
+          <td valign="middle">7121</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM3.2</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">5</td>
+          <td valign="middle">7168</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM5.0</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">6</td>
+          <td valign="middle">7174</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM3.1</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">7</td>
+          <td valign="middle">7175</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM5.4</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">8</td>
+          <td valign="middle">7177</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM6.6</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">9</td>
+          <td valign="middle">7179</td>
+          <td valign="middle">Asset Damage</td>
+          <td valign="middle">Guardrail</td>
+          <td valign="middle">START-NB/KM7.2</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">10</td>
+          <td valign="middle">7252</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM1.6</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">11</td>
+          <td valign="middle">7312</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM4.1</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">12</td>
+          <td valign="middle">7332</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM5.7</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">13</td>
+          <td valign="middle">7344</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM5.4</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">14</td>
+          <td valign="middle">7346</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM5.8</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">15</td>
+          <td valign="middle">7348</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM1.8</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">16</td>
+          <td valign="middle">7362</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">NB/KM7.1</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">17</td>
+          <td valign="middle">7369</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM3.8</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">18</td>
+          <td valign="middle">7376</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">KK-RG 0.6</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">19</td>
+          <td valign="middle">7381</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM0.7</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">20</td>
+          <td valign="middle">7384</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">NB/KM3.7</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">21</td>
+          <td valign="middle">7391</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM3.9</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">22</td>
+          <td valign="middle">7439</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM2.7</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">23</td>
+          <td valign="middle">7441</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM1.6</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">24</td>
+          <td valign="middle">7451</td>
+          <td valign="middle">Asset Damage</td>
+          <td valign="middle">Guardrail</td>
+          <td valign="middle">EXIT 506B-KK-RF 0.0</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">25</td>
+          <td valign="middle">7471</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM0.2</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">26</td>
+          <td valign="middle">7472</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM1.5</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">27</td>
+          <td valign="middle">7496</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM2.6</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">28</td>
+          <td valign="middle">7511</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM2.9</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">29</td>
+          <td valign="middle">7514</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM4.2</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">30</td>
+          <td valign="middle">7531</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM6.4</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">31</td>
+          <td valign="middle">7539</td>
+          <td valign="middle">Asset Damage</td>
+          <td valign="middle">Guardrail</td>
+          <td valign="middle">EXIT 506B-KK-RF 0.2</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">32</td>
+          <td valign="middle">7540</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM0.1</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">33</td>
+          <td valign="middle">7543</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">AI-RD 0.5</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">34</td>
+          <td valign="middle">8239</td>
+          <td valign="middle">Asset Damage</td>
+          <td valign="middle">Guardrail</td>
+          <td valign="middle">NB/KM0.8</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">35</td>
+          <td valign="middle">8250</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM1.7</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">36</td>
+          <td valign="middle">8325</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">NB/KM6.6</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">37</td>
+          <td valign="middle">8326</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM6.3</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">38</td>
+          <td valign="middle">8328</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">SB/KM6.4</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">39</td>
+          <td valign="middle">8341</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM7.1</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">40</td>
+          <td valign="middle">8343</td>
+          <td valign="middle">Water Ponding</td>
+          <td valign="middle">Waterponding</td>
+          <td valign="middle">NB/KM0.8A</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">41</td>
+          <td valign="middle">8351</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM6.9</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">42</td>
+          <td valign="middle">8363</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM6.1</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">43</td>
+          <td valign="middle">8364</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM6.8</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">44</td>
+          <td valign="middle">8401</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM3.3</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">45</td>
+          <td valign="middle">8523</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM4.2</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">46</td>
+          <td valign="middle">8547</td>
+          <td valign="middle">Asset Damage</td>
+          <td valign="middle">Guardrail</td>
+          <td valign="middle">SB/KM2.6</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">47</td>
+          <td valign="middle">8554</td>
+          <td valign="middle">Water Ponding</td>
+          <td valign="middle">Waterponding</td>
+          <td valign="middle">AI-RD 0.0</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">48</td>
+          <td valign="middle">8575</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM0.2A</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">49</td>
+          <td valign="middle">8590</td>
+          <td valign="middle">Asset Damage</td>
+          <td valign="middle">Guardrail</td>
+          <td valign="middle">KK-RD 0.0</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">50</td>
+          <td valign="middle">8594</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM3.0</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">51</td>
+          <td valign="middle">8628</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM4.9</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">52</td>
+          <td valign="middle">8660</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM5.1</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">53</td>
+          <td valign="middle">8663</td>
+          <td valign="middle">Asset Damage</td>
+          <td valign="middle">Guardrail</td>
+          <td valign="middle">SB/KM0.6</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">54</td>
+          <td valign="middle">8713</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM0.4A</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">55</td>
+          <td valign="middle">8769</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM3.7</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">56</td>
+          <td valign="middle">8812</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM6.1</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">57</td>
+          <td valign="middle">8813</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM4.6</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">58</td>
+          <td valign="middle">8822</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM5.2</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">59</td>
+          <td valign="middle">8894</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM0.7A</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">60</td>
+          <td valign="middle">8914</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM6.3</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">61</td>
+          <td valign="middle">8925</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM3.8</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">62</td>
+          <td valign="middle">8970</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM7.2</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">63</td>
+          <td valign="middle">8983</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM5.0</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">64</td>
+          <td valign="middle">8984</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM6.0</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">65</td>
+          <td valign="middle">9021</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM3.6</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">66</td>
+          <td valign="middle">9022</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">START-NB/KM7.2</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">67</td>
+          <td valign="middle">9023</td>
+          <td valign="middle">Water Ponding</td>
+          <td valign="middle">Waterponding</td>
+          <td valign="middle">NB/KM6.3</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">68</td>
+          <td valign="middle">9041</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM2.4</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">69</td>
+          <td valign="middle">9064</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM3.1</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">70</td>
+          <td valign="middle">9070</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM3.5</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">71</td>
+          <td valign="middle">9071</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM3.3</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">72</td>
+          <td valign="middle">9102</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM1.9</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">73</td>
+          <td valign="middle">9105</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM3.5</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">74</td>
+          <td valign="middle">9221</td>
+          <td valign="middle">Water Ponding</td>
+          <td valign="middle">Waterponding</td>
+          <td valign="middle">NB/KM3.9</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">75</td>
+          <td valign="middle">9226</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">NB/KM5.7</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">76</td>
+          <td valign="middle">9227</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM5.9</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">77</td>
+          <td valign="middle">9228</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM1.1</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">78</td>
+          <td valign="middle">9229</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM1.3</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">79</td>
+          <td valign="middle">9233</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">NB/KM3.8</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">80</td>
+          <td valign="middle">9253</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">SB/KM3.5</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">81</td>
+          <td valign="middle">9256</td>
+          <td valign="middle">Water Ponding</td>
+          <td valign="middle">Waterponding</td>
+          <td valign="middle">NB/KM4.3</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">82</td>
+          <td valign="middle">9257</td>
+          <td valign="middle">Water Ponding</td>
+          <td valign="middle">Waterponding</td>
+          <td valign="middle">SB/KM7.0</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">83</td>
+          <td valign="middle">9305</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM1.8</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">84</td>
+          <td valign="middle">9352</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM0.7</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">85</td>
+          <td valign="middle">9491</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM7.0</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">86</td>
+          <td valign="middle">9505</td>
+          <td valign="middle">Water Ponding</td>
+          <td valign="middle">Waterponding</td>
+          <td valign="middle">NB/KM3.6</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">87</td>
+          <td valign="middle">9518</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM0.0A</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">88</td>
+          <td valign="middle">9552</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM0.0</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">89</td>
+          <td valign="middle">9613</td>
+          <td valign="middle">Asset Damage</td>
+          <td valign="middle">Guardrail</td>
+          <td valign="middle">SB/KM1.7</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">90</td>
+          <td valign="middle">9614</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">AI-RC 0.5</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">91</td>
+          <td valign="middle">9647</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM5.5</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">92</td>
+          <td valign="middle">9649</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM0.4A</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">93</td>
+          <td valign="middle">9741</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM4.4</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">94</td>
+          <td valign="middle">9865</td>
+          <td valign="middle">Incident / Accident</td>
+          <td valign="middle">Accident</td>
+          <td valign="middle">SB/KM1.3</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">95</td>
+          <td valign="middle">9887</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">BL-RD 0.2</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">96</td>
+          <td valign="middle">9926</td>
+          <td valign="middle">Water Ponding</td>
+          <td valign="middle">Waterponding</td>
+          <td valign="middle">START-NB/KM4.9</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">97</td>
+          <td valign="middle">9934</td>
+          <td valign="middle">Water Ponding</td>
+          <td valign="middle">Waterponding</td>
+          <td valign="middle">START-NB/KM4.9</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">98</td>
+          <td valign="middle">9939</td>
+          <td valign="middle">Water Ponding</td>
+          <td valign="middle">Waterponding</td>
+          <td valign="middle">NB/KM0.6</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">99</td>
+          <td valign="middle">9947</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">SB/KM3.6</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">100</td>
+          <td valign="middle">10007</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM0.9</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">101</td>
+          <td valign="middle">10036</td>
+          <td valign="middle">Lamp Malfunction</td>
+          <td valign="middle">Lampoff</td>
+          <td valign="middle">AI-RC 0.1</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">102</td>
+          <td valign="middle">10048</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM0.8A</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">103</td>
+          <td valign="middle">10088</td>
+          <td valign="middle">Lamp Malfunction</td>
+          <td valign="middle">Lampoff</td>
+          <td valign="middle">SB/KM2.3</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">104</td>
+          <td valign="middle">10089</td>
+          <td valign="middle">Lamp Malfunction</td>
+          <td valign="middle">Lampoff</td>
+          <td valign="middle">SB/KM2.4</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">105</td>
+          <td valign="middle">10108</td>
+          <td valign="middle">Incident / Accident</td>
+          <td valign="middle">Accident</td>
+          <td valign="middle">SB/KM4.3</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">106</td>
+          <td valign="middle">10148</td>
+          <td valign="middle">Lamp Malfunction</td>
+          <td valign="middle">Lampoff</td>
+          <td valign="middle">NB/KM1.9</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">107</td>
+          <td valign="middle">10149</td>
+          <td valign="middle">Lamp Malfunction</td>
+          <td valign="middle">Lampoff</td>
+          <td valign="middle">NB/KM1.5</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">108</td>
+          <td valign="middle">10151</td>
+          <td valign="middle">Lamp Malfunction</td>
+          <td valign="middle">Lampoff</td>
+          <td valign="middle">NB/KM3.7</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">109</td>
+          <td valign="middle">10152</td>
+          <td valign="middle">Lamp Malfunction</td>
+          <td valign="middle">Lampoff</td>
+          <td valign="middle">NB/KM3.1</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">110</td>
+          <td valign="middle">10153</td>
+          <td valign="middle">Lamp Malfunction</td>
+          <td valign="middle">Lampoff</td>
+          <td valign="middle">NB/KM3.4</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">111</td>
+          <td valign="middle">10154</td>
+          <td valign="middle">Lamp Malfunction</td>
+          <td valign="middle">Lampoff</td>
+          <td valign="middle">NB/KM4.0</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">112</td>
+          <td valign="middle">10224</td>
+          <td valign="middle">Lamp Malfunction</td>
+          <td valign="middle">Lampoff</td>
+          <td valign="middle">SB/KM3.5</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">113</td>
+          <td valign="middle">10225</td>
+          <td valign="middle">Lamp Malfunction</td>
+          <td valign="middle">Lampoff</td>
+          <td valign="middle">SB/KM2.7</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">114</td>
+          <td valign="middle">10254</td>
+          <td valign="middle">Water Ponding</td>
+          <td valign="middle">Waterponding</td>
+          <td valign="middle">SB/KM6.2</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">115</td>
+          <td valign="middle">10255</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM4.0</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">116</td>
+          <td valign="middle">10290</td>
+          <td valign="middle">Incident / Accident</td>
+          <td valign="middle">Accident</td>
+          <td valign="middle">SB/KM2.5</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">117</td>
+          <td valign="middle">10294</td>
+          <td valign="middle">Incident / Accident</td>
+          <td valign="middle">Accident</td>
+          <td valign="middle">NB/KM0.6</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">118</td>
+          <td valign="middle">10303</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM7.0</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">119</td>
+          <td valign="middle">10321</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">AI-RC 0.4</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">120</td>
+          <td valign="middle">10330</td>
+          <td valign="middle">Incident / Accident</td>
+          <td valign="middle">Accident</td>
+          <td valign="middle">SB/KM2.4</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">121</td>
+          <td valign="middle">10337</td>
+          <td valign="middle">Asset Damage</td>
+          <td valign="middle">Guardrail</td>
+          <td valign="middle">SB/KM5.5</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">122</td>
+          <td valign="middle">10389</td>
+          <td valign="middle">Asset Damage</td>
+          <td valign="middle">Signage</td>
+          <td valign="middle">SB/KM5.1</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">123</td>
+          <td valign="middle">10408</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM0.9</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">124</td>
+          <td valign="middle">10478</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM4.9</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">125</td>
+          <td valign="middle">10490</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Tyre</td>
+          <td valign="middle">NB/KM3.4</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">126</td>
+          <td valign="middle">10499</td>
+          <td valign="middle">Lamp Malfunction</td>
+          <td valign="middle">Lampoff</td>
+          <td valign="middle">NB/KM6.9</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">127</td>
+          <td valign="middle">10502</td>
+          <td valign="middle">Lamp Malfunction</td>
+          <td valign="middle">Lampoff</td>
+          <td valign="middle">NB/KM5.6</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">128</td>
+          <td valign="middle">10503</td>
+          <td valign="middle">Lamp Malfunction</td>
+          <td valign="middle">Lampoff</td>
+          <td valign="middle">NB/KM5.5</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">129</td>
+          <td valign="middle">10506</td>
+          <td valign="middle">Lamp Malfunction</td>
+          <td valign="middle">Lampoff</td>
+          <td valign="middle">SB/KM5.4</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">130</td>
+          <td valign="middle">10509</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Garbage</td>
+          <td valign="middle">NB/KM6.0</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">131</td>
+          <td valign="middle">10514</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Garbage</td>
+          <td valign="middle">NB/KM3.0</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">132</td>
+          <td valign="middle">10520</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Garbage</td>
+          <td valign="middle">NB/KM2.0</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">133</td>
+          <td valign="middle">10565</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Garbage</td>
+          <td valign="middle">NB/KM4.8</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">134</td>
+          <td valign="middle">10600</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Garbage</td>
+          <td valign="middle">NB/KM4.1</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">135</td>
+          <td valign="middle">10607</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Garbage</td>
+          <td valign="middle">SB/KM5.5</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">136</td>
+          <td valign="middle">10642</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Cone</td>
+          <td valign="middle">NB/KM3.7</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">137</td>
+          <td valign="middle">10755</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM2.5</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">138</td>
+          <td valign="middle">10889</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM0.8</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">139</td>
+          <td valign="middle">10918</td>
+          <td valign="middle">Incident / Accident</td>
+          <td valign="middle">Accident</td>
+          <td valign="middle">NB/KM3.5</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">140</td>
+          <td valign="middle">10982</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Garbage</td>
+          <td valign="middle">NB/KM6.6</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">141</td>
+          <td valign="middle">10997</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Garbage</td>
+          <td valign="middle">NB/KM2.6</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">142</td>
+          <td valign="middle">11011</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">NB/KM1.4</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">143</td>
+          <td valign="middle">11031</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">Pothole</td>
+          <td valign="middle">SB/KM1.1</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">144</td>
+          <td valign="middle">11066</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Garbage</td>
+          <td valign="middle">NB/KM3.2</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">145</td>
+          <td valign="middle">11191</td>
+          <td valign="middle">Animal</td>
+          <td valign="middle">Cow</td>
+          <td valign="middle">NB/KM2.0</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">146</td>
+          <td valign="middle">11247</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Garbage</td>
+          <td valign="middle">AI-RC 0.2</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">147</td>
+          <td valign="middle">11271</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Garbage</td>
+          <td valign="middle">SB/KM3.0</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">148</td>
+          <td valign="middle">11287</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM2.1</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">149</td>
+          <td valign="middle">11294</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Debris</td>
+          <td valign="middle">SB/KM1.5</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">150</td>
+          <td valign="middle">11312</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Garbage</td>
+          <td valign="middle">SB/KM3.3</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">151</td>
+          <td valign="middle">11338</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Debris</td>
+          <td valign="middle">NB/KM3.7</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">152</td>
+          <td valign="middle">11343</td>
+          <td valign="middle">Water Ponding</td>
+          <td valign="middle">Waterponding</td>
+          <td valign="middle">SB/KM6.9</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">153</td>
+          <td valign="middle">11380</td>
+          <td valign="middle">Water Ponding</td>
+          <td valign="middle">Waterponding</td>
+          <td valign="middle">NB/KM0.1A</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">154</td>
+          <td valign="middle">11451</td>
+          <td valign="middle">Incident / Accident</td>
+          <td valign="middle">Accident</td>
+          <td valign="middle">NB/KM4.4</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">155</td>
+          <td valign="middle">11461</td>
+          <td valign="middle">Incident / Accident</td>
+          <td valign="middle">Accident</td>
+          <td valign="middle">NB/KM5.6</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">156</td>
+          <td valign="middle">11463</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Tyre</td>
+          <td valign="middle">NB/KM1.3</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">157</td>
+          <td valign="middle">11496</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM6.7</td>
+          <td valign="middle">VBA9854</td>
+        </tr>
+              <tr>
+          <td valign="middle">158</td>
+          <td valign="middle">11784</td>
+          <td valign="middle">Animal</td>
+          <td valign="middle">Dog</td>
+          <td valign="middle">SB/KM0.5A</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">159</td>
+          <td valign="middle">11786</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">Surface Crack</td>
+          <td valign="middle">SB/KM0.5</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+              <tr>
+          <td valign="middle">160</td>
+          <td valign="middle">11788</td>
+          <td valign="middle">Foreign Object</td>
+          <td valign="middle">Garbage</td>
+          <td valign="middle">SB/KM5.3</td>
+          <td valign="middle">BPT6231</td>
+        </tr>
+          </tbody>
+  </table>
+</div>
+<div class="page-break"></div>      
+    
+        
+    
+    
+      </body>
+</html>

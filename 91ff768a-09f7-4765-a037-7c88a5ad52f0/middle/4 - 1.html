@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+
+  <style>
+  table{
+    width:100%;
+  }
+  td{
+    text-align: center
+  }
+
+  .first-page {
+    background-image: url("https://d2n7qmsq6qx5o0.cloudfront.net/report_cover.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height:1240px;
+  }
+
+  .last-page {
+    background-image: url("https://d2n7qmsq6qx5o0.cloudfront.net/report_back_cover.jpeg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height:1240px;
+  }
+
+  .page-break {
+    page-break-after: always;
+  }
+
+  .report-title {
+    font-family: "Poppins", sans-serif;
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .summary {
+    display: flex;
+    border: 1px solid #e8ecf1;
+  }
+
+  #detections {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  #detections td, #detections th {
+    border-bottom: 1px solid #707070;
+    text-align: center;
+    padding: 8px;
+  }
+
+  #detections th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #414143;
+    color: white;
+  }
+  #summary-table{
+    border: thin solid #707070;
+    border-radius:10px;
+  }
+
+  .single-detection td {
+    border: thin solid #707070;
+    box-shadow: #596066;
+    border-radius: 8px;
+  }
+
+  .td-div {
+    border: thin solid #707070;
+    box-shadow: #596066;
+    border-radius: 8px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Float four columns side by side */
+  .column {
+    float: left;
+    width: 30%;
+    padding: 0 5px;
+  }
+
+  .row {margin: 0 -5px;}
+
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  /* Responsive columns */
+  @media  screen and (max-width: 80%) {
+    .column {
+      width: 30%;
+      display: block;
+      margin-bottom: 10px;
+    }
+  }
+
+  /* Style the counter cards */
+  .card {
+    border: thin solid #707070;
+    width:100%;
+    border-radius:10px;
+    text-align: center;
+    background-color: white;
+    color: #2e3131;
+    display:block;
+  }
+
+  /* Div Table */
+  .divTable {
+    display: table;
+    width: 100%;
+    height:10px;
+  }
+
+  .divTableRow {
+    display: table-row;
+  }
+
+  .divTableHeading {
+    background-color: #eee;
+    display: table-header-group;
+  }
+
+  .divTableCell,
+  .divTableHead {
+    /* border: 1px solid #999999; */
+    display: table-cell;
+    padding: 3px 10px;
+  }
+
+  .divTableHeading {
+    background-color: #eee;
+    display: table-header-group;
+    font-weight: bold;
+  }
+
+  .divTableFoot {
+    background-color: #eee;
+    display: table-footer-group;
+    font-weight: bold;
+  }
+
+  .divTableBody {
+    display: table-row-group;
+  }
+</style>  
+  <body style="height: 1240px">
+          
+    
+          <div class="single-detection">
+    <div class="divTable" >
+      <div class="divTableBody">
+        <div class="divTableCell">
+          <table style="width:100%">
+            <tr style="width:100%;height:190px">
+              <td rowspan="2" style="width:66%;box-shadow: 2px 2px 15px -2px rgb(50, 50, 50);">
+                  <img src="https://d2n7qmsq6qx5o0.cloudfront.net/public/images/6280.jpg" style="display:block; width:98%; height:390px; margin:5px; padding:0px;object-fit:contain; background:black">
+              </td>
+              <td style="width:34%;box-shadow: 2px 2px 15px -2px rgb(50, 50, 50);">
+                <img src="data:image/jpeg;base64,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" style="display:block; width:97%; height:180px; margin:5px; padding:0px;">
+              </td>
+            </tr>
+            <tr style="width:100%;height:140px">
+              <td style="width:34%;padding:10px;box-shadow: 2px 2px 15px -2px rgb(50, 50, 50);">
+                <h4 class="report-title" style="color:#3FAEDA; text-align:left;margin-top: 0px">ID : 7175</h4>
+                <p  class="report-title"><div>
+            <span style="float:left;font-size: 12px;font-weight: 100">Description</span>
+            <span style="float:right;font-size: 12px">SURFACE CRACK</span>
+          </div>
+          <div style="clear: both;"></div> </p>
+                <p  class="report-title"><div>
+            <span style="float:left;font-size: 12px;font-weight: 100">Date</span>
+            <span style="float:right;font-size: 12px">2020/08/19</span>
+          </div>
+          <div style="clear: both;"></div> </p>
+                <p  class="report-title"><div>
+            <span style="float:left;font-size: 12px;font-weight: 100">Time</span>
+            <span style="float:right;font-size: 12px">12:56 PM</span>
+          </div>
+          <div style="clear: both;"></div> </p>
+                <p  class="report-title"><div>
+            <span style="float:left;font-size: 12px;font-weight: 100">Location</span>
+            <span style="float:right;font-size: 12px">NB/KM5.4</span>
+          </div>
+          <div style="clear: both;"></div> </p>
+                <p  class="report-title"><div>
+            <span style="float:left;font-size: 12px;font-weight: 100">Vehicle</span>
+            <span style="float:right;font-size: 12px">BPT6231</span>
+          </div>
+          <div style="clear: both;"></div> </p>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="single-detection">
+    <div class="divTable" >
+      <div class="divTableBody">
+        <div class="divTableCell">
+          <table style="width:100%">
+            <tr style="width:100%;height:190px">
+              <td rowspan="2" style="width:66%;box-shadow: 2px 2px 15px -2px rgb(50, 50, 50);">
+                  <img src="https://d2n7qmsq6qx5o0.cloudfront.net/public/images/6282.jpg" style="display:block; width:98%; height:390px; margin:5px; padding:0px;object-fit:contain; background:black">
+              </td>
+              <td style="width:34%;box-shadow: 2px 2px 15px -2px rgb(50, 50, 50);">
+                <img src="data:image/jpeg;base64,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" style="display:block; width:97%; height:180px; margin:5px; padding:0px;">
+              </td>
+            </tr>
+            <tr style="width:100%;height:140px">
+              <td style="width:34%;padding:10px;box-shadow: 2px 2px 15px -2px rgb(50, 50, 50);">
+                <h4 class="report-title" style="color:#3FAEDA; text-align:left;margin-top: 0px">ID : 7177</h4>
+                <p  class="report-title"><div>
+            <span style="float:left;font-size: 12px;font-weight: 100">Description</span>
+            <span style="float:right;font-size: 12px">SURFACE CRACK</span>
+          </div>
+          <div style="clear: both;"></div> </p>
+                <p  class="report-title"><div>
+            <span style="float:left;font-size: 12px;font-weight: 100">Date</span>
+            <span style="float:right;font-size: 12px">2020/08/19</span>
+          </div>
+          <div style="clear: both;"></div> </p>
+                <p  class="report-title"><div>
+            <span style="float:left;font-size: 12px;font-weight: 100">Time</span>
+            <span style="float:right;font-size: 12px">12:57 PM</span>
+          </div>
+          <div style="clear: both;"></div> </p>
+                <p  class="report-title"><div>
+            <span style="float:left;font-size: 12px;font-weight: 100">Location</span>
+            <span style="float:right;font-size: 12px">NB/KM6.6</span>
+          </div>
+          <div style="clear: both;"></div> </p>
+                <p  class="report-title"><div>
+            <span style="float:left;font-size: 12px;font-weight: 100">Vehicle</span>
+            <span style="float:right;font-size: 12px">BPT6231</span>
+          </div>
+          <div style="clear: both;"></div> </p>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="single-detection">
+    <div class="divTable" >
+      <div class="divTableBody">
+        <div class="divTableCell">
+          <table style="width:100%">
+            <tr style="width:100%;height:190px">
+              <td rowspan="2" style="width:66%;box-shadow: 2px 2px 15px -2px rgb(50, 50, 50);">
+                  <img src="https://d2n7qmsq6qx5o0.cloudfront.net/public/images/6357.jpg" style="display:block; width:98%; height:390px; margin:5px; padding:0px;object-fit:contain; background:black">
+              </td>
+              <td style="width:34%;box-shadow: 2px 2px 15px -2px rgb(50, 50, 50);">
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD//gA7Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2OTApLCBxdWFsaXR5ID0gOTAK/9sAQwADAgIDAgIDAwMDBAMDBAUIBQUEBAUKBwcGCAwKDAwLCgsLDQ4SEA0OEQ4LCxAWEBETFBUVFQwPFxgWFBgSFBUU/9sAQwEDBAQFBAUJBQUJFA0LDRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU/8AAEQgAKwBDAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A8rEhCYPXNQPcFSaHY5NULqVxKyrjOKxsdBbXUQrDdxk4FWEu8upRyrIcjaeQa4zUdUltzGGyxDcgLU1jrqvMdyMN3AJGMHvRYD3bwP8AEYDZZ6jJ93ASVzx9DXWa94cs/E0ZeKONLkjKSoeD/wDWNfPNpqXnRgAc7u1dt4S+IlxowigmJmtS3Ruq/SpAi13w9Lply8c8bRSjtgkH6GueeAhsYxXvkdzpnjDTFbImjcYDN1Q1wHiv4f3WlxvcxP8AaIe20fz70AecvEdx+tFTSxTCVx5Z6npRQTca5qheloh5yIZCOMCrhO6msPX9KdyjmtUmWS3jYDa2fukcmmPAr2qtsCOp9R1rT1CNZRtwZSSflx05p9vYRxLjaoyeR1xRcCrpLNEkgfAKsD1q4175Cl8ZA4FDxw4dMY5HPrUUkkUP7t1Cq2MNnOTSA6XR/Et3o80UtrMUHG6PnaR9PWvSLX4lW1zaeXIrAlcMDgg14t56/ayY2DqAFIHatAtsBC0Adzda54ekuJGNgSSeSGIorgzL70UEjg1KWBH4UwdKWgLkTx5bIYD14pCdnQU89aa3NBRR3KJXLthSc884qg8kP2gBgWXqc+ta0kansKrXMSDYQoznGaCbjLR4hckAlA+MADg1qFuKz2RVZSBjFW8naPpQWO5opo6UUEH/2Q==" style="display:block; width:97%; height:180px; margin:5px; padding:0px;">
+              </td>
+            </tr>
+            <tr style="width:100%;height:140px">
+              <td style="width:34%;padding:10px;box-shadow: 2px 2px 15px -2px rgb(50, 50, 50);">
+                <h4 class="report-title" style="color:#3FAEDA; text-align:left;margin-top: 0px">ID : 7252</h4>
+                <p  class="report-title"><div>
+            <span style="float:left;font-size: 12px;font-weight: 100">Description</span>
+            <span style="float:right;font-size: 12px">SURFACE CRACK</span>
+          </div>
+          <div style="clear: both;"></div> </p>
+                <p  class="report-title"><div>
+            <span style="float:left;font-size: 12px;font-weight: 100">Date</span>
+            <span style="float:right;font-size: 12px">2020/08/19</span>
+          </div>
+          <div style="clear: both;"></div> </p>
+                <p  class="report-title"><div>
+            <span style="float:left;font-size: 12px;font-weight: 100">Time</span>
+            <span style="float:right;font-size: 12px">6:30 PM</span>
+          </div>
+          <div style="clear: both;"></div> </p>
+                <p  class="report-title"><div>
+            <span style="float:left;font-size: 12px;font-weight: 100">Location</span>
+            <span style="float:right;font-size: 12px">SB/KM1.6</span>
+          </div>
+          <div style="clear: both;"></div> </p>
+                <p  class="report-title"><div>
+            <span style="float:left;font-size: 12px;font-weight: 100">Vehicle</span>
+            <span style="float:right;font-size: 12px">BPT6231</span>
+          </div>
+          <div style="clear: both;"></div> </p>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+        
+    
+    
+      </body>
+</html>
