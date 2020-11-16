@@ -4,7 +4,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-
 	pdf "github.com/adrg/go-wkhtmltopdf"
 )
 
